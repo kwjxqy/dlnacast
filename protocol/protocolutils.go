@@ -1,0 +1,937 @@
+package protocol
+
+import (
+	"fmt"
+
+	"dongdong/dlna/utils"
+)
+
+var description string
+
+// LoadXML 从内嵌常量返回 XML 字符串
+func LoadXML(name string) string {
+	switch name {
+	case "AVTransport.xml":
+		return avTransportXML
+	case "RenderingControl.xml":
+		return renderingControlXML
+	case "ConnectionManager.xml":
+		return connectionManagerXML
+	case "description.xml":
+		if len(description) == 0 {
+			description = fmt.Sprintf(descriptionXML, utils.GetName(), utils.GetUUID())
+		}
+		return description
+	case "SinkProtocolInfo.csv":
+		return sinkProtocolInfoCSV
+	default:
+		return ""
+	}
+}
+
+// 内嵌的 XML 内容，请将你提供的文件完整粘贴在此处
+const avTransportXML = `<?xml version="1.0" encoding="UTF-8"?>
+<scpd
+        xmlns="urn:schemas-upnp-org:service-1-0">
+    <specVersion>
+        <major>1</major>
+        <minor>0</minor>
+    </specVersion>
+    <actionList>
+        <action>
+            <name>GetCurrentTransportActions</name>
+            <argumentList>
+                <argument>
+                    <name>InstanceID</name>
+                    <direction>in</direction>
+                    <relatedStateVariable>A_ARG_TYPE_InstanceID</relatedStateVariable>
+                </argument>
+                <argument>
+                    <name>Actions</name>
+                    <direction>out</direction>
+                    <relatedStateVariable>CurrentTransportActions</relatedStateVariable>
+                </argument>
+            </argumentList>
+        </action>
+        <action>
+            <name>GetDeviceCapabilities</name>
+            <argumentList>
+                <argument>
+                    <name>InstanceID</name>
+                    <direction>in</direction>
+                    <relatedStateVariable>A_ARG_TYPE_InstanceID</relatedStateVariable>
+                </argument>
+                <argument>
+                    <name>PlayMedia</name>
+                    <direction>out</direction>
+                    <relatedStateVariable>PossiblePlaybackStorageMedia</relatedStateVariable>
+                </argument>
+                <argument>
+                    <name>RecMedia</name>
+                    <direction>out</direction>
+                    <relatedStateVariable>PossibleRecordStorageMedia</relatedStateVariable>
+                </argument>
+                <argument>
+                    <name>RecQualityModes</name>
+                    <direction>out</direction>
+                    <relatedStateVariable>PossibleRecordQualityModes</relatedStateVariable>
+                </argument>
+            </argumentList>
+        </action>
+        <action>
+            <name>GetMediaInfo</name>
+            <argumentList>
+                <argument>
+                    <name>InstanceID</name>
+                    <direction>in</direction>
+                    <relatedStateVariable>A_ARG_TYPE_InstanceID</relatedStateVariable>
+                </argument>
+                <argument>
+                    <name>NrTracks</name>
+                    <direction>out</direction>
+                    <relatedStateVariable>NumberOfTracks</relatedStateVariable>
+                </argument>
+                <argument>
+                    <name>MediaDuration</name>
+                    <direction>out</direction>
+                    <relatedStateVariable>CurrentMediaDuration</relatedStateVariable>
+                </argument>
+                <argument>
+                    <name>CurrentURI</name>
+                    <direction>out</direction>
+                    <relatedStateVariable>AVTransportURI</relatedStateVariable>
+                </argument>
+                <argument>
+                    <name>CurrentURIMetaData</name>
+                    <direction>out</direction>
+                    <relatedStateVariable>AVTransportURIMetaData</relatedStateVariable>
+                </argument>
+                <argument>
+                    <name>NextURI</name>
+                    <direction>out</direction>
+                    <relatedStateVariable>NextAVTransportURI</relatedStateVariable>
+                </argument>
+                <argument>
+                    <name>NextURIMetaData</name>
+                    <direction>out</direction>
+                    <relatedStateVariable>NextAVTransportURIMetaData</relatedStateVariable>
+                </argument>
+                <argument>
+                    <name>PlayMedium</name>
+                    <direction>out</direction>
+                    <relatedStateVariable>PlaybackStorageMedium</relatedStateVariable>
+                </argument>
+                <argument>
+                    <name>RecordMedium</name>
+                    <direction>out</direction>
+                    <relatedStateVariable>RecordStorageMedium</relatedStateVariable>
+                </argument>
+                <argument>
+                    <name>WriteStatus</name>
+                    <direction>out</direction>
+                    <relatedStateVariable>RecordMediumWriteStatus</relatedStateVariable>
+                </argument>
+            </argumentList>
+        </action>
+        <action>
+            <name>GetPositionInfo</name>
+            <argumentList>
+                <argument>
+                    <name>InstanceID</name>
+                    <direction>in</direction>
+                    <relatedStateVariable>A_ARG_TYPE_InstanceID</relatedStateVariable>
+                </argument>
+                <argument>
+                    <name>Track</name>
+                    <direction>out</direction>
+                    <relatedStateVariable>CurrentTrack</relatedStateVariable>
+                </argument>
+                <argument>
+                    <name>TrackDuration</name>
+                    <direction>out</direction>
+                    <relatedStateVariable>CurrentTrackDuration</relatedStateVariable>
+                </argument>
+                <argument>
+                    <name>TrackMetaData</name>
+                    <direction>out</direction>
+                    <relatedStateVariable>CurrentTrackMetaData</relatedStateVariable>
+                </argument>
+                <argument>
+                    <name>TrackURI</name>
+                    <direction>out</direction>
+                    <relatedStateVariable>CurrentTrackURI</relatedStateVariable>
+                </argument>
+                <argument>
+                    <name>RelTime</name>
+                    <direction>out</direction>
+                    <relatedStateVariable>RelativeTimePosition</relatedStateVariable>
+                </argument>
+                <argument>
+                    <name>AbsTime</name>
+                    <direction>out</direction>
+                    <relatedStateVariable>AbsoluteTimePosition</relatedStateVariable>
+                </argument>
+                <argument>
+                    <name>RelCount</name>
+                    <direction>out</direction>
+                    <relatedStateVariable>RelativeCounterPosition</relatedStateVariable>
+                </argument>
+                <argument>
+                    <name>AbsCount</name>
+                    <direction>out</direction>
+                    <relatedStateVariable>AbsoluteCounterPosition</relatedStateVariable>
+                </argument>
+            </argumentList>
+        </action>
+        <action>
+            <name>GetTransportInfo</name>
+            <argumentList>
+                <argument>
+                    <name>InstanceID</name>
+                    <direction>in</direction>
+                    <relatedStateVariable>A_ARG_TYPE_InstanceID</relatedStateVariable>
+                </argument>
+                <argument>
+                    <name>CurrentTransportState</name>
+                    <direction>out</direction>
+                    <relatedStateVariable>TransportState</relatedStateVariable>
+                </argument>
+                <argument>
+                    <name>CurrentTransportStatus</name>
+                    <direction>out</direction>
+                    <relatedStateVariable>TransportStatus</relatedStateVariable>
+                </argument>
+                <argument>
+                    <name>CurrentSpeed</name>
+                    <direction>out</direction>
+                    <relatedStateVariable>TransportPlaySpeed</relatedStateVariable>
+                </argument>
+            </argumentList>
+        </action>
+        <action>
+            <name>GetTransportSettings</name>
+            <argumentList>
+                <argument>
+                    <name>InstanceID</name>
+                    <direction>in</direction>
+                    <relatedStateVariable>A_ARG_TYPE_InstanceID</relatedStateVariable>
+                </argument>
+                <argument>
+                    <name>PlayMode</name>
+                    <direction>out</direction>
+                    <relatedStateVariable>CurrentPlayMode</relatedStateVariable>
+                </argument>
+                <argument>
+                    <name>RecQualityMode</name>
+                    <direction>out</direction>
+                    <relatedStateVariable>CurrentRecordQualityMode</relatedStateVariable>
+                </argument>
+            </argumentList>
+        </action>
+        <action>
+            <name>Next</name>
+            <argumentList>
+                <argument>
+                    <name>InstanceID</name>
+                    <direction>in</direction>
+                    <relatedStateVariable>A_ARG_TYPE_InstanceID</relatedStateVariable>
+                </argument>
+            </argumentList>
+        </action>
+        <action>
+            <name>Pause</name>
+            <argumentList>
+                <argument>
+                    <name>InstanceID</name>
+                    <direction>in</direction>
+                    <relatedStateVariable>A_ARG_TYPE_InstanceID</relatedStateVariable>
+                </argument>
+            </argumentList>
+        </action>
+        <action>
+            <name>Play</name>
+            <argumentList>
+                <argument>
+                    <name>InstanceID</name>
+                    <direction>in</direction>
+                    <relatedStateVariable>A_ARG_TYPE_InstanceID</relatedStateVariable>
+                </argument>
+                <argument>
+                    <name>Speed</name>
+                    <direction>in</direction>
+                    <relatedStateVariable>TransportPlaySpeed</relatedStateVariable>
+                </argument>
+            </argumentList>
+        </action>
+        <action>
+            <name>Previous</name>
+            <argumentList>
+                <argument>
+                    <name>InstanceID</name>
+                    <direction>in</direction>
+                    <relatedStateVariable>A_ARG_TYPE_InstanceID</relatedStateVariable>
+                </argument>
+            </argumentList>
+        </action>
+        <action>
+            <name>Seek</name>
+            <argumentList>
+                <argument>
+                    <name>InstanceID</name>
+                    <direction>in</direction>
+                    <relatedStateVariable>A_ARG_TYPE_InstanceID</relatedStateVariable>
+                </argument>
+                <argument>
+                    <name>Unit</name>
+                    <direction>in</direction>
+                    <relatedStateVariable>A_ARG_TYPE_SeekMode</relatedStateVariable>
+                </argument>
+                <argument>
+                    <name>Target</name>
+                    <direction>in</direction>
+                    <relatedStateVariable>A_ARG_TYPE_SeekTarget</relatedStateVariable>
+                </argument>
+            </argumentList>
+        </action>
+        <action>
+            <name>SetAVTransportURI</name>
+            <argumentList>
+                <argument>
+                    <name>InstanceID</name>
+                    <direction>in</direction>
+                    <relatedStateVariable>A_ARG_TYPE_InstanceID</relatedStateVariable>
+                </argument>
+                <argument>
+                    <name>CurrentURI</name>
+                    <direction>in</direction>
+                    <relatedStateVariable>AVTransportURI</relatedStateVariable>
+                </argument>
+                <argument>
+                    <name>CurrentURIMetaData</name>
+                    <direction>in</direction>
+                    <relatedStateVariable>AVTransportURIMetaData</relatedStateVariable>
+                </argument>
+            </argumentList>
+        </action>
+        <action>
+            <name>SetPlayMode</name>
+            <argumentList>
+                <argument>
+                    <name>InstanceID</name>
+                    <direction>in</direction>
+                    <relatedStateVariable>A_ARG_TYPE_InstanceID</relatedStateVariable>
+                </argument>
+                <argument>
+                    <name>NewPlayMode</name>
+                    <direction>in</direction>
+                    <relatedStateVariable>CurrentPlayMode</relatedStateVariable>
+                </argument>
+            </argumentList>
+        </action>
+        <action>
+            <name>Stop</name>
+            <argumentList>
+                <argument>
+                    <name>InstanceID</name>
+                    <direction>in</direction>
+                    <relatedStateVariable>A_ARG_TYPE_InstanceID</relatedStateVariable>
+                </argument>
+            </argumentList>
+        </action>
+    </actionList>
+    <serviceStateTable>
+        <stateVariable sendEvents="no">
+            <name>CurrentPlayMode</name>
+            <dataType>string</dataType>
+            <defaultValue>NORMAL</defaultValue>
+            <allowedValueList>
+                <allowedValue>NORMAL</allowedValue>
+                <allowedValue>REPEAT_ONE</allowedValue>
+                <allowedValue>REPEAT_ALL</allowedValue>
+                <allowedValue>SHUFFLE</allowedValue>
+                <allowedValue>SHUFFLE_NOREPEAT</allowedValue>
+            </allowedValueList>
+        </stateVariable>
+        <stateVariable sendEvents="no">
+            <name>RecordStorageMedium</name>
+            <dataType>string</dataType>
+            <allowedValueList>
+                <allowedValue>NOT_IMPLEMENTED</allowedValue>
+            </allowedValueList>
+        </stateVariable>
+        <stateVariable sendEvents="yes">
+            <name>LastChange</name>
+            <dataType>string</dataType>
+        </stateVariable>
+        <stateVariable sendEvents="yes">
+            <name>RelativeTimePosition</name>
+            <dataType>string</dataType>
+        </stateVariable>
+        <stateVariable sendEvents="no">
+            <name>CurrentTrackTitle</name>
+            <dataType>string</dataType>
+        </stateVariable>
+        <stateVariable sendEvents="no">
+            <name>DisplayCurrentSubtitle</name>
+            <dataType>boolean</dataType>
+            <defaultValue>1</defaultValue>
+        </stateVariable>
+        <stateVariable sendEvents="yes">
+            <name>CurrentTrackURI</name>
+            <dataType>string</dataType>
+        </stateVariable>
+        <stateVariable sendEvents="yes">
+            <name>CurrentTrackDuration</name>
+            <dataType>string</dataType>
+        </stateVariable>
+        <stateVariable sendEvents="no">
+            <name>CurrentRecordQualityMode</name>
+            <dataType>string</dataType>
+            <allowedValueList>
+                <allowedValue>NOT_IMPLEMENTED</allowedValue>
+            </allowedValueList>
+        </stateVariable>
+        <stateVariable sendEvents="yes">
+            <name>CurrentMediaDuration</name>
+            <dataType>string</dataType>
+        </stateVariable>
+        <stateVariable sendEvents="no">
+            <name>AbsoluteCounterPosition</name>
+            <dataType>i4</dataType>
+        </stateVariable>
+        <stateVariable sendEvents="no">
+            <name>RelativeCounterPosition</name>
+            <dataType>i4</dataType>
+        </stateVariable>
+        <stateVariable sendEvents="no">
+            <name>A_ARG_TYPE_InstanceID</name>
+            <dataType>ui4</dataType>
+        </stateVariable>
+        <stateVariable sendEvents="yes">
+            <name>AVTransportURI</name>
+            <dataType>string</dataType>
+        </stateVariable>
+        <stateVariable sendEvents="yes">
+            <name>TransportState</name>
+            <dataType>string</dataType>
+            <allowedValueList>
+                <allowedValue>STOPPED</allowedValue>
+                <allowedValue>PAUSED_PLAYBACK</allowedValue>
+                <allowedValue>PLAYING</allowedValue>
+                <allowedValue>TRANSITIONING</allowedValue>
+                <allowedValue>NO_MEDIA_PRESENT</allowedValue>
+            </allowedValueList>
+        </stateVariable>
+        <stateVariable sendEvents="yes">
+            <name>CurrentTrackMetaData</name>
+            <dataType>string</dataType>
+        </stateVariable>
+        <stateVariable sendEvents="no">
+            <name>NextAVTransportURI</name>
+            <dataType>string</dataType>
+        </stateVariable>
+        <stateVariable sendEvents="no">
+            <name>PossibleRecordQualityModes</name>
+            <dataType>string</dataType>
+            <allowedValueList>
+                <allowedValue>NOT_IMPLEMENTED</allowedValue>
+            </allowedValueList>
+        </stateVariable>
+        <stateVariable sendEvents="no">
+            <name>CurrentTrack</name>
+            <dataType>ui4</dataType>
+            <allowedValueRange>
+                <minimum>0</minimum>
+                <maximum>65535</maximum>
+                <step>1</step>
+            </allowedValueRange>
+        </stateVariable>
+        <stateVariable sendEvents="yes">
+            <name>AbsoluteTimePosition</name>
+            <dataType>string</dataType>
+        </stateVariable>
+        <stateVariable sendEvents="no">
+            <name>NextAVTransportURIMetaData</name>
+            <dataType>string</dataType>
+        </stateVariable>
+        <stateVariable sendEvents="no">
+            <name>PlaybackStorageMedium</name>
+            <dataType>string</dataType>
+            <allowedValueList>
+                <allowedValue>NONE</allowedValue>
+                <allowedValue>UNKNOWN</allowedValue>
+                <allowedValue>CD-DA</allowedValue>
+                <allowedValue>HDD</allowedValue>
+                <allowedValue>NETWORK</allowedValue>
+            </allowedValueList>
+        </stateVariable>
+        <stateVariable sendEvents="no">
+            <name>CurrentTransportActions</name>
+            <dataType>string</dataType>
+        </stateVariable>
+        <stateVariable sendEvents="no">
+            <name>RecordMediumWriteStatus</name>
+            <dataType>string</dataType>
+            <allowedValueList>
+                <allowedValue>NOT_IMPLEMENTED</allowedValue>
+            </allowedValueList>
+        </stateVariable>
+        <stateVariable sendEvents="no">
+            <name>PossiblePlaybackStorageMedia</name>
+            <dataType>string</dataType>
+            <allowedValueList>
+                <allowedValue>NONE</allowedValue>
+                <allowedValue>UNKNOWN</allowedValue>
+                <allowedValue>CD-DA</allowedValue>
+                <allowedValue>HDD</allowedValue>
+                <allowedValue>NETWORK</allowedValue>
+            </allowedValueList>
+        </stateVariable>
+        <stateVariable sendEvents="no">
+            <name>AVTransportURIMetaData</name>
+            <dataType>string</dataType>
+        </stateVariable>
+        <stateVariable sendEvents="no">
+            <name>NumberOfTracks</name>
+            <dataType>ui4</dataType>
+            <allowedValueRange>
+                <minimum>0</minimum>
+                <maximum>65535</maximum>
+            </allowedValueRange>
+        </stateVariable>
+        <stateVariable sendEvents="no">
+            <name>A_ARG_TYPE_SeekMode</name>
+            <dataType>string</dataType>
+            <allowedValueList>
+                <allowedValue>REL_TIME</allowedValue>
+                <allowedValue>TRACK_NR</allowedValue>
+            </allowedValueList>
+        </stateVariable>
+        <stateVariable sendEvents="no">
+            <name>A_ARG_TYPE_SeekTarget</name>
+            <dataType>string</dataType>
+        </stateVariable>
+        <stateVariable sendEvents="no">
+            <name>PossibleRecordStorageMedia</name>
+            <dataType>string</dataType>
+            <allowedValueList>
+                <allowedValue>NOT_IMPLEMENTED</allowedValue>
+            </allowedValueList>
+        </stateVariable>
+        <stateVariable sendEvents="yes">
+            <name>TransportStatus</name>
+            <dataType>string</dataType>
+            <allowedValueList>
+                <allowedValue>OK</allowedValue>
+                <allowedValue>ERROR_OCCURRED</allowedValue>
+            </allowedValueList>
+        </stateVariable>
+        <stateVariable sendEvents="no">
+            <name>TransportPlaySpeed</name>
+            <dataType>string</dataType>
+            <allowedValueList>
+                <allowedValue>0.5</allowedValue>
+                <allowedValue>0.75</allowedValue>
+                <allowedValue>1</allowedValue>
+                <allowedValue>1.25</allowedValue>
+                <allowedValue>1.5</allowedValue>
+                <allowedValue>2</allowedValue>
+            </allowedValueList>
+        </stateVariable>
+    </serviceStateTable>
+</scpd>
+` // 请粘贴完整的 AVTransport.xml
+const renderingControlXML = `<?xml version="1.0" encoding="UTF-8"?>
+<scpd
+    xmlns="urn:schemas-upnp-org:service-1-0">
+    <specVersion>
+        <major>1</major>
+        <minor>0</minor>
+    </specVersion>
+    <actionList>
+        <action>
+            <name>GetMute</name>
+            <argumentList>
+                <argument>
+                    <name>InstanceID</name>
+                    <direction>in</direction>
+                    <relatedStateVariable>A_ARG_TYPE_InstanceID</relatedStateVariable>
+                </argument>
+                <argument>
+                    <name>Channel</name>
+                    <direction>in</direction>
+                    <relatedStateVariable>A_ARG_TYPE_Channel</relatedStateVariable>
+                </argument>
+                <argument>
+                    <name>CurrentMute</name>
+                    <direction>out</direction>
+                    <relatedStateVariable>Mute</relatedStateVariable>
+                </argument>
+            </argumentList>
+        </action>
+        <action>
+            <name>GetVolume</name>
+            <argumentList>
+                <argument>
+                    <name>InstanceID</name>
+                    <direction>in</direction>
+                    <relatedStateVariable>A_ARG_TYPE_InstanceID</relatedStateVariable>
+                </argument>
+                <argument>
+                    <name>Channel</name>
+                    <direction>in</direction>
+                    <relatedStateVariable>A_ARG_TYPE_Channel</relatedStateVariable>
+                </argument>
+                <argument>
+                    <name>CurrentVolume</name>
+                    <direction>out</direction>
+                    <relatedStateVariable>Volume</relatedStateVariable>
+                </argument>
+            </argumentList>
+        </action>
+        <action>
+            <name>GetVolumeDB</name>
+            <argumentList>
+                <argument>
+                    <name>InstanceID</name>
+                    <direction>in</direction>
+                    <relatedStateVariable>A_ARG_TYPE_InstanceID</relatedStateVariable>
+                </argument>
+                <argument>
+                    <name>Channel</name>
+                    <direction>in</direction>
+                    <relatedStateVariable>A_ARG_TYPE_Channel</relatedStateVariable>
+                </argument>
+                <argument>
+                    <name>CurrentVolume</name>
+                    <direction>out</direction>
+                    <relatedStateVariable>VolumeDB</relatedStateVariable>
+                </argument>
+            </argumentList>
+        </action>
+        <action>
+            <name>GetVolumeDBRange</name>
+            <argumentList>
+                <argument>
+                    <name>InstanceID</name>
+                    <direction>in</direction>
+                    <relatedStateVariable>A_ARG_TYPE_InstanceID</relatedStateVariable>
+                </argument>
+                <argument>
+                    <name>Channel</name>
+                    <direction>in</direction>
+                    <relatedStateVariable>A_ARG_TYPE_Channel</relatedStateVariable>
+                </argument>
+                <argument>
+                    <name>MinValue</name>
+                    <direction>out</direction>
+                    <relatedStateVariable>VolumeDB</relatedStateVariable>
+                </argument>
+                <argument>
+                    <name>MaxValue</name>
+                    <direction>out</direction>
+                    <relatedStateVariable>VolumeDB</relatedStateVariable>
+                </argument>
+            </argumentList>
+        </action>
+        <action>
+            <name>ListPresets</name>
+            <argumentList>
+                <argument>
+                    <name>InstanceID</name>
+                    <direction>in</direction>
+                    <relatedStateVariable>A_ARG_TYPE_InstanceID</relatedStateVariable>
+                </argument>
+                <argument>
+                    <name>CurrentPresetNameList</name>
+                    <direction>out</direction>
+                    <relatedStateVariable>PresetNameList</relatedStateVariable>
+                </argument>
+            </argumentList>
+        </action>
+        <action>
+            <name>SelectPreset</name>
+            <argumentList>
+                <argument>
+                    <name>InstanceID</name>
+                    <direction>in</direction>
+                    <relatedStateVariable>A_ARG_TYPE_InstanceID</relatedStateVariable>
+                </argument>
+                <argument>
+                    <name>PresetName</name>
+                    <direction>in</direction>
+                    <relatedStateVariable>A_ARG_TYPE_PresetName</relatedStateVariable>
+                </argument>
+            </argumentList>
+        </action>
+        <action>
+            <name>SetMute</name>
+            <argumentList>
+                <argument>
+                    <name>InstanceID</name>
+                    <direction>in</direction>
+                    <relatedStateVariable>A_ARG_TYPE_InstanceID</relatedStateVariable>
+                </argument>
+                <argument>
+                    <name>Channel</name>
+                    <direction>in</direction>
+                    <relatedStateVariable>A_ARG_TYPE_Channel</relatedStateVariable>
+                </argument>
+                <argument>
+                    <name>DesiredMute</name>
+                    <direction>in</direction>
+                    <relatedStateVariable>Mute</relatedStateVariable>
+                </argument>
+            </argumentList>
+        </action>
+        <action>
+            <name>SetVolume</name>
+            <argumentList>
+                <argument>
+                    <name>InstanceID</name>
+                    <direction>in</direction>
+                    <relatedStateVariable>A_ARG_TYPE_InstanceID</relatedStateVariable>
+                </argument>
+                <argument>
+                    <name>Channel</name>
+                    <direction>in</direction>
+                    <relatedStateVariable>A_ARG_TYPE_Channel</relatedStateVariable>
+                </argument>
+                <argument>
+                    <name>DesiredVolume</name>
+                    <direction>in</direction>
+                    <relatedStateVariable>Volume</relatedStateVariable>
+                </argument>
+            </argumentList>
+        </action>
+    </actionList>
+    <serviceStateTable>
+        <stateVariable sendEvents="yes">
+            <name>LastChange</name>
+            <dataType>string</dataType>
+        </stateVariable>
+        <stateVariable sendEvents="no">
+            <name>A_ARG_TYPE_Channel</name>
+            <dataType>string</dataType>
+            <allowedValueList>
+                <allowedValue>Master</allowedValue>
+            </allowedValueList>
+        </stateVariable>
+        <stateVariable sendEvents="no">
+            <name>A_ARG_TYPE_InstanceID</name>
+            <dataType>ui4</dataType>
+        </stateVariable>
+        <stateVariable sendEvents="no">
+            <name>Volume</name>
+            <dataType>ui2</dataType>
+            <allowedValueRange>
+                <minimum>0</minimum>
+                <maximum>100</maximum>
+                <step>1</step>
+            </allowedValueRange>
+        </stateVariable>
+        <stateVariable sendEvents="no">
+            <name>Mute</name>
+            <dataType>boolean</dataType>
+        </stateVariable>
+        <stateVariable sendEvents="no">
+            <name>PresetNameList</name>
+            <dataType>string</dataType>
+            <allowedValueList>
+                <allowedValue>FactoryDefaults</allowedValue>
+            </allowedValueList>
+        </stateVariable>
+        <stateVariable sendEvents="no">
+            <name>A_ARG_TYPE_PresetName</name>
+            <dataType>string</dataType>
+            <allowedValueList>
+                <allowedValue>FactoryDefaults</allowedValue>
+            </allowedValueList>
+        </stateVariable>
+        <stateVariable sendEvents="no">
+            <name>VolumeDB</name>
+            <dataType>i2</dataType>
+            <allowedValueRange>
+                <minimum>-32767</minimum>
+                <maximum>32767</maximum>
+            </allowedValueRange>
+        </stateVariable>
+    </serviceStateTable>
+</scpd>
+` // 粘贴 RenderingControl.xml
+const connectionManagerXML = `<?xml version="1.0" encoding="UTF-8"?>
+<scpd
+    xmlns="urn:schemas-upnp-org:service-1-0">
+    <specVersion>
+        <major>1</major>
+        <minor>0</minor>
+    </specVersion>
+    <actionList>
+        <action>
+            <name>GetCurrentConnectionInfo</name>
+            <argumentList>
+                <argument>
+                    <name>ConnectionID</name>
+                    <direction>in</direction>
+                    <relatedStateVariable>A_ARG_TYPE_ConnectionID</relatedStateVariable>
+                </argument>
+                <argument>
+                    <name>RcsID</name>
+                    <direction>out</direction>
+                    <relatedStateVariable>A_ARG_TYPE_RcsID</relatedStateVariable>
+                </argument>
+                <argument>
+                    <name>AVTransportID</name>
+                    <direction>out</direction>
+                    <relatedStateVariable>A_ARG_TYPE_AVTransportID</relatedStateVariable>
+                </argument>
+                <argument>
+                    <name>ProtocolInfo</name>
+                    <direction>out</direction>
+                    <relatedStateVariable>A_ARG_TYPE_ProtocolInfo</relatedStateVariable>
+                </argument>
+                <argument>
+                    <name>PeerConnectionManager</name>
+                    <direction>out</direction>
+                    <relatedStateVariable>A_ARG_TYPE_ConnectionManager</relatedStateVariable>
+                </argument>
+                <argument>
+                    <name>PeerConnectionID</name>
+                    <direction>out</direction>
+                    <relatedStateVariable>A_ARG_TYPE_ConnectionID</relatedStateVariable>
+                </argument>
+                <argument>
+                    <name>Direction</name>
+                    <direction>out</direction>
+                    <relatedStateVariable>A_ARG_TYPE_Direction</relatedStateVariable>
+                </argument>
+                <argument>
+                    <name>Status</name>
+                    <direction>out</direction>
+                    <relatedStateVariable>A_ARG_TYPE_ConnectionStatus</relatedStateVariable>
+                </argument>
+            </argumentList>
+        </action>
+        <action>
+            <name>GetProtocolInfo</name>
+            <argumentList>
+                <argument>
+                    <name>Source</name>
+                    <direction>out</direction>
+                    <relatedStateVariable>SourceProtocolInfo</relatedStateVariable>
+                </argument>
+                <argument>
+                    <name>Sink</name>
+                    <direction>out</direction>
+                    <relatedStateVariable>SinkProtocolInfo</relatedStateVariable>
+                </argument>
+            </argumentList>
+        </action>
+        <action>
+            <name>GetCurrentConnectionIDs</name>
+            <argumentList>
+                <argument>
+                    <name>ConnectionIDs</name>
+                    <direction>out</direction>
+                    <relatedStateVariable>CurrentConnectionIDs</relatedStateVariable>
+                </argument>
+            </argumentList>
+        </action>
+    </actionList>
+    <serviceStateTable>
+        <stateVariable sendEvents="no">
+            <name>A_ARG_TYPE_ProtocolInfo</name>
+            <dataType>string</dataType>
+        </stateVariable>
+        <stateVariable sendEvents="no">
+            <name>A_ARG_TYPE_ConnectionStatus</name>
+            <dataType>string</dataType>
+            <allowedValueList>
+                <allowedValue>OK</allowedValue>
+                <allowedValue>ContentFormatMismatch</allowedValue>
+                <allowedValue>InsufficientBandwidth</allowedValue>
+                <allowedValue>UnreliableChannel</allowedValue>
+                <allowedValue>Unknown</allowedValue>
+            </allowedValueList>
+        </stateVariable>
+        <stateVariable sendEvents="no">
+            <name>A_ARG_TYPE_AVTransportID</name>
+            <dataType>i4</dataType>
+        </stateVariable>
+        <stateVariable sendEvents="no">
+            <name>A_ARG_TYPE_RcsID</name>
+            <dataType>i4</dataType>
+        </stateVariable>
+        <stateVariable sendEvents="no">
+            <name>A_ARG_TYPE_ConnectionID</name>
+            <dataType>i4</dataType>
+        </stateVariable>
+        <stateVariable sendEvents="no">
+            <name>A_ARG_TYPE_ConnectionManager</name>
+            <dataType>string</dataType>
+        </stateVariable>
+        <stateVariable sendEvents="yes">
+            <name>SourceProtocolInfo</name>
+            <dataType>string</dataType>
+        </stateVariable>
+        <stateVariable sendEvents="yes">
+            <name>SinkProtocolInfo</name>
+            <dataType>string</dataType>
+        </stateVariable>
+        <stateVariable sendEvents="no">
+            <name>A_ARG_TYPE_Direction</name>
+            <dataType>string</dataType>
+            <allowedValueList>
+                <allowedValue>Input</allowedValue>
+                <allowedValue>Output</allowedValue>
+            </allowedValueList>
+        </stateVariable>
+        <stateVariable sendEvents="yes">
+            <name>CurrentConnectionIDs</name>
+            <dataType>string</dataType>
+        </stateVariable>
+    </serviceStateTable>
+</scpd>
+` // 粘贴 ConnectionManager.xml
+const descriptionXML = `<?xml version="1.0" encoding="utf-8"?>
+<root xmlns="urn:schemas-upnp-org:device-1-0">
+  <specVersion><major>1</major><minor>0</minor></specVersion>
+  <device>
+    <deviceType>urn:schemas-upnp-org:device:MediaRenderer:1</deviceType>
+    <friendlyName>%s</friendlyName>
+    <manufacturer>Phantom DLNA</manufacturer>
+    <modelName>DLNA-Renderer</modelName>
+    <manufacturerURL>https://kwjxqy.ys168.com</manufacturerURL>
+    <modelDescription>Phantom Media Renderer</modelDescription>
+    <modelNumber>1.0</modelNumber>
+    <modelURL>https://kwjxqy.ys168.com</modelURL>
+    <serialNumber>1024</serialNumber>
+    <UDN>%s</UDN>
+	<dlna:X_DLNADOC xmlns:dlna="urn:schemas-dlna-org:device-1-0">DMR-1.50</dlna:X_DLNADOC>
+    <serviceList>
+      <service>
+        <serviceType>urn:schemas-upnp-org:service:AVTransport:1</serviceType>
+        <serviceId>urn:upnp-org:serviceId:AVTransport</serviceId>
+        <controlURL>/AVTransport/control</controlURL>
+        <eventSubURL>/AVTransport/event</eventSubURL>
+        <SCPDURL>/SCPDURL/AVTransport.xml</SCPDURL>
+      </service>
+      <service>
+        <serviceType>urn:schemas-upnp-org:service:ConnectionManager:1</serviceType>
+        <serviceId>urn:upnp-org:serviceId:ConnectionManager</serviceId>
+        <controlURL>/ConnectionManager/control</controlURL>
+        <eventSubURL>/ConnectionManager/event</eventSubURL>
+        <SCPDURL>/SCPDURL/ConnectionManager.xml</SCPDURL>
+      </service>
+      <service>
+        <serviceType>urn:schemas-upnp-org:service:RenderingControl:1</serviceType>
+        <serviceId>urn:upnp-org:serviceId:RenderingControl</serviceId>
+        <controlURL>/RenderingControl/control</controlURL>
+        <eventSubURL>/RenderingControl/event</eventSubURL>
+        <SCPDURL>/SCPDURL/RenderingControl.xml</SCPDURL>
+      </service>
+    </serviceList>
+  </device>
+</root>`
+
+const sinkProtocolInfoCSV = `http-get:*:image/x-ycbcr-yuv420:*,http-get:*:image/x-xpixmap:*,http-get:*:image/x-xfig:*,http-get:*:image/x-xbm:*,http-get:*:image/x-xbitmap:*,http-get:*:image/x-wmf:*,http-get:*:image/x-windows-bmp:*,http-get:*:image/x-rgb:*,http-get:*:image/x-quicktime:*,http-get:*:image/x-psd:*,http-get:*:image/x-portable-pixmap:*,http-get:*:image/x-portable-graymap:*,http-get:*:image/x-portable-bitmap:*,http-get:*:image/x-portable-anymap:*,http-get:*:image/x-png:*,http-get:*:image/x-pict:*,http-get:*:image/x-photoshop:*,http-get:*:image/x-pcx:*,http-get:*:image/x-ms-bmp:*,http-get:*:image/x-jg:*,http-get:*:image/x-icon:*,http-get:*:image/xicon:*,http-get:*:image/x-ico:*,http-get:*:image/x-guffaw:*,http-get:*:image/x-eps:*,http-get:*:image/x-emf:*,http-get:*:image/x.djvu:*,http-get:*:image/x-djvu:*,http-get:*:image/x-dcraw:*,http-get:*:image/x-citrix-pjpeg:*,http-get:*:image/x-bmp:*,http-get:*:image/x-bitmap:*,http-get:*:image/vnd.wap.wbmp:*,http-get:*:image/vnd.ms-photo:*,http-get:*:image/vnd.ms-modi:*,http-get:*:image/vnd.microsoft.icon:*,http-get:*:image/vnd.dxf:*,http-get:*:image/vnd.dwg:*,http-get:*:image/vnd.djvu:*,http-get:*:image/vnd.adobe.photoshop:*,http-get:*:image/tiff:*,http-get:*:image/svg+xml:*,http-get:*:image/png:*,http-get:*:image/pjpeg:*,http-get:*:image/pict:*,http-get:*:image/pdf:*,http-get:*:image/jpg:*,http-get:*:image/jpeg-cmyk:*,http-get:*:image/jpeg:*,http-get:*:image/jp2:*,http-get:*:image/icon:*,http-get:*:image/ico:*,http-get:*:image/GIF:*,http-get:*:image/gif:*,http-get:*:image/fits:*,http-get:*:image/cur:*,http-get:*:image/bmp:*,http-get:*:image/bitmap:*,http-get:*:application/x-shockwave-flash:*,http-get:*:video/m3u8:*,http-get:*:video/ogm:*,http-get:*:video/hlv:*,http-get:*:video/wtv:*,http-get:*:video/x-rmvb:*,http-get:*:video/rmvb:*,http-get:*:video/x-rm:*,http-get:*:video/rm:*,http-get:*:video/x-nerodigital-ps:*,http-get:*:video/wt:*,http-get:*:video/x-matroska:*,http-get:*:video/mkv:*,http-get:*:video/x-mkv:*,http-get:*:video/x-ms-avi:*,http-get:*:video/x-xvid:*,http-get:*:video/xvid:*,http-get:*:video/x-divx:*,http-get:*:video/divx:*,http-get:*:video/x-motion-jpeg:*,http-get:*:video/vnd.dlna.mpeg-tts:*,http-get:*:video/x-swf:*,http-get:*:video/x-sgi-movie:*,http-get:*:video/x-ms-video:*,http-get:*:video/x-pn-realvideo:*,http-get:*:video/x-pn-realaudio:*,http-get:*:video/x-ms-wvx:*,http-get:*:video/x-ms-wmx:*,http-get:*:video/x-ms-wmv:*,http-get:*:video/x-ms-wma:*,http-get:*:video/x-ms-wm:*,http-get:*:video/x-msvideo:*,http-get:*:video/x-ms-asx:*,http-get:*:video/x-ms-asf:*,http-get:*:video/mp2p:*,http-get:*:video/MP2T:*,http-get:*:video/mpeg2:*,http-get:*:video/x-mpeg:*,http-get:*:video/x-mp4:*,http-get:*:video/x-m4v:*,http-get:*:video/x-flv:*,http-get:*:video/x-dv:*,http-get:*:video/wmv:*,http-get:*:video/webm:*,http-get:*:video/vnd.objectvideo:*,http-get:*:video/unknown:*,http-get:*:video/swf:*,http-get:*:video/quicktime:*,http-get:*:video/msvideo:*,http-get:*:video/mpg4:*,http-get:*:video/mpeg4:*,http-get:*:video/mpeg3:*,http-get:*:video/mpeg:*,http-get:*:video/mp4v-es:*,http-get:*:video/mp4:*,http-get:*:video/m4v:*,http-get:*:video/flv:*,http-get:*:video/f4v:*,http-get:*:video/avi:*,http-get:*:video/asx:*,http-get:*:video/3gpp2:*,http-get:*:video/3gpp:*,http-get:*:video/ape:*,http-get:*:video/aiff:*,http-get:*:video/ra:*,http-get:*:video/flac:*,http-get:*:video/ac3:*,http-get:*:video/aac:*,http-get:*:video/ogg:*,http-get:*:video/m4a:*,http-get:*:video/wav:*,http-get:*:video/asf:*,http-get:*:video/wma:*,http-get:*:video/mp3:*,http-get:*:audio/ape:*,http-get:*:audio/x-asf-pf:*,http-get:*:audio/wma:*,http-get:*:audio/x-wav:*,http-get:*:audio/vorbis:*,http-get:*:audio/x-scpls:*,http-get:*:audio/x-ra:*,http-get:*:audio/ra:*,http-get:*:audio/x-realaudio:*,http-get:*:audio/x-pn-realaudio-plugin:*,http-get:*:audio/x-pn-realaudio:*,http-get:*:audio/x-ms-wmv:*,http-get:*:audio/x-ms-wma:*,http-get:*:audio/x-ms-wax:*,http-get:*:audio/x-mpeg-url:*,http-get:*:audio/x-mpeg3:*,http-get:*:audio/x-mp3:*,http-get:*:audio/x-midi:*,http-get:*:audio/x-m4a:*,http-get:*:audio/x-flac:*,http-get:*:audio/flac:*,http-get:*:audio/x-ac3:*,http-get:*:audio/ac3:*,http-get:*:audio/x-aac:*,http-get:*:audio/aac:*,http-get:*:audio/x-aiff:*,http-get:*:audio/wave:*,http-get:*:audio/wav:*,http-get:*:audio/vnd.rn-realaudio:*,http-get:*:audio/vnd.qcelp:*,http-get:*:audio/vnd.dlna.adts:*,http-get:*:audio/unknown:*,http-get:*:audio/playlist:*,http-get:*:audio/x-ogg:*,http-get:*:audio/ogg:*,http-get:*:audio/mpg:*,http-get:*:audio/mpeg-url:*,http-get:*:audio/mpeg3:*,http-get:*:audio/mpeg2:*,http-get:*:audio/x-mpeg:*,http-get:*:audio/mpeg:*,http-get:*:audio/mp4a-latm:*,http-get:*:audio/mp4:*,http-get:*:audio/mp3:*,http-get:*:audio/mp2:*,http-get:*:audio/mp1:*,http-get:*:audio/x-dts:*,http-get:*:audio/midi:*,http-get:*:audio/mid:*,http-get:*:audio/m4a:*,http-get:*:audio/x-atrac3:*,http-get:*:audio/basic:*,http-get:*:audio/asf:*,http-get:*:audio/aiff:*,http-get:*:audio/L16:*,http-get:*:audio/L8:*,http-get:*:audio/L16:DLNA.ORG_PN=LPCM,http-get:*:audio/L16:DLNA.ORG_PN=LPCM_low,http-get:*:audio/L16;rate=44100;channels=1:DLNA.ORG_PN=LPCM,http-get:*:audio/L16;rate=44100;channels=2:DLNA.ORG_PN=LPCM,http-get:*:audio/L16;rate=48000;channels=2:DLNA.ORG_PN=LPCM,http-get:*:audio/mpeg:DLNA.ORG_PN=MP3,http-get:*:audio/mpeg:DLNA.ORG_PN=MP3X,http-get:*:audio/vnd.dlna.adts:DLNA.ORG_PN=AAC_ADTS,http-get:*:audio/vnd.dlna.adts:DLNA.ORG_PN=AAC_ADTS_192,http-get:*:audio/vnd.dlna.adts:DLNA.ORG_PN=AAC_ADTS_320,http-get:*:audio/vnd.dlna.adts:DLNA.ORG_PN=AAC_MULT5_ADTS,http-get:*:audio/mp4:DLNA.ORG_PN=AAC_ISO,http-get:*:audio/3gpp:DLNA.ORG_PN=AAC_ISO,http-get:*:audio/mp4:DLNA.ORG_PN=AAC_ISO_192,http-get:*:audio/3gpp:DLNA.ORG_PN=AAC_ISO_192,http-get:*:audio/mp4:DLNA.ORG_PN=AAC_ISO_320,http-get:*:audio/3gpp:DLNA.ORG_PN=AAC_ISO_320,http-get:*:audio/mp4:DLNA.ORG_PN=AAC_MULT5_ISO,http-get:*:audio/3gpp:DLNA.ORG_PN=AAC_MULT5_ISO,http-get:*:audio/mp4:DLNA.ORG_PN=HEAACv2_L2,http-get:*:audio/3gpp:DLNA.ORG_PN=HEAACv2_L2,http-get:*:audio/mp4:DLNA.ORG_PN=HEAACv2_L2_128,http-get:*:audio/3gpp:DLNA.ORG_PN=HEAACv2_L2_128,http-get:*:audio/mp4:DLNA.ORG_PN=HEAACv2_L2_320,http-get:*:audio/3gpp:DLNA.ORG_PN=HEAACv2_L2_320,http-get:*:audio/mp4:DLNA.ORG_PN=HEAACv2_L3,http-get:*:audio/3gpp:DLNA.ORG_PN=HEAACv2_L3,http-get:*:audio/mp4:DLNA.ORG_PN=HEAACv2_L4,http-get:*:audio/3gpp:DLNA.ORG_PN=HEAACv2_L4,http-get:*:audio/mp4:DLNA.ORG_PN=HEAACv2_MULT5,http-get:*:audio/3gpp:DLNA.ORG_PN=HEAACv2_MULT5,http-get:*:audio/mp4:DLNA.ORG_PN=HEAAC_L2_ISO,http-get:*:audio/3gpp:DLNA.ORG_PN=HEAAC_L2_ISO,http-get:*:audio/mp4:DLNA.ORG_PN=HEAAC_L2_ISO_128,http-get:*:audio/3gpp:DLNA.ORG_PN=HEAAC_L2_ISO_128,http-get:*:audio/mp4:DLNA.ORG_PN=HEAAC_L2_ISO_320,http-get:*:audio/3gpp:DLNA.ORG_PN=HEAAC_L2_ISO_320,http-get:*:audio/mp4:DLNA.ORG_PN=HEAAC_L3_ISO,http-get:*:audio/3gpp:DLNA.ORG_PN=HEAAC_L3_ISO,http-get:*:audio/mp4:DLNA.ORG_PN=HEAAC_MULT5_ISO,http-get:*:audio/3gpp:DLNA.ORG_PN=HEAAC_MULT5_ISO,http-get:*:audio/x-ms-wma:DLNA.ORG_PN=WMAFULL,http-get:*:audio/x-ms-wma:DLNA.ORG_PN=WMABASE,http-get:*:audio/x-ms-wma:DLNA.ORG_PN=WMAPRO,http-get:*:audio/x-ms-wma:DLNA.ORG_PN=WMALSL,http-get:*:audio/x-ms-wma:DLNA.ORG_PN=WMALSL_MULT5,http-get:*:audio/x-ms-wma:DLNA.ORG_PN=WMDRM_WMABASE,http-get:*:audio/x-ms-wma:DLNA.ORG_PN=WMDRM_WMAFULL,http-get:*:audio/x-ms-wma:DLNA.ORG_PN=WMDRM_WMALSL,http-get:*:audio/x-ms-wma:DLNA.ORG_PN=WMDRM_WMALSL_MULT5,http-get:*:audio/x-ms-wma:DLNA.ORG_PN=WMDRM_WMAPRO,http-get:*:image/jpeg:DLNA.ORG_PN=JPEG_TN,http-get:*:image/jpeg:DLNA.ORG_PN=JPEG_SM,http-get:*:image/jpeg:DLNA.ORG_PN=JPEG_SM_ICO,http-get:*:image/jpeg:DLNA.ORG_PN=JPEG_MED,http-get:*:image/jpeg:DLNA.ORG_PN=JPEG_LRG,http-get:*:image/jpeg:DLNA.ORG_PN=JPEG_LRG_ICO,http-get:*:image/png:DLNA.ORG_PN=PNG_LRG,http-get:*:image/png:DLNA.ORG_PN=PNG_LRG_ICO,http-get:*:image/png:DLNA.ORG_PN=PNG_TN,http-get:*:video/x-ms-wmv:DLNA.ORG_PN=WMDRM_WMVSPML_BASE,http-get:*:video/x-ms-wmv:DLNA.ORG_PN=WMDRM_WMVSPLL_BASE,http-get:*:video/x-ms-wmv:DLNA.ORG_PN=WMDRM_WMVMED_PRO,http-get:*:video/x-ms-wmv:DLNA.ORG_PN=WMDRM_WMVHIGH_FULL,http-get:*:video/x-ms-wmv:DLNA.ORG_PN=WMDRM_WMVMED_FULL,http-get:*:video/x-ms-wmv:DLNA.ORG_PN=WMDRM_WMVHIGH_PRO,http-get:*:video/x-ms-wmv:DLNA.ORG_PN=WMDRM_WMVHM_BASE,http-get:*:video/x-ms-wmv:DLNA.ORG_PN=WMDRM_WMVMED_BASE,http-get:*:video/x-ms-wmv:DLNA.ORG_PN=WMVMED_PRO,http-get:*:video/x-ms-wmv:DLNA.ORG_PN=WMDRM_WMVSPML_MP3,http-get:*:video/x-ms-wmv:DLNA.ORG_PN=WMVMED_BASE,http-get:*:video/x-ms-wmv:DLNA.ORG_PN=WMVHIGH_FULL,http-get:*:video/x-ms-wmv:DLNA.ORG_PN=WMVHIGH_PRO,http-get:*:video/x-ms-wmv:DLNA.ORG_PN=WMVMED_FULL,http-get:*:video/x-ms-wmv:DLNA.ORG_PN=WMVSPML_MP3,http-get:*:video/x-ms-wmv:DLNA.ORG_PN=WMVSPML_BASE,http-get:*:video/x-ms-wmv:DLNA.ORG_PN=WMVSPLL_BASE,http-get:*:video/x-ms-wmv:DLNA.ORG_PN=WMVHM_BASE,http-get:*:video/x-ms-asf:DLNA.ORG_PN=VC1_ASF_AP_L2_WMA,http-get:*:video/x-ms-asf:DLNA.ORG_PN=VC1_ASF_AP_L1_WMA,http-get:*:video/x-ms-asf:DLNA.ORG_PN=WMDRM_VC1_ASF_AP_L1_WMA,http-get:*:video/x-ms-asf:DLNA.ORG_PN=WMDRM_VC1_ASF_AP_L2_WMA,http-get:*:video/x-ms-asf:DLNA.ORG_PN=MPEG4_P2_ASF_ASP_L4_SO_G726,http-get:*:video/x-ms-asf:DLNA.ORG_PN=MPEG4_P2_ASF_SP_G726,http-get:*:video/x-ms-asf:DLNA.ORG_PN=MPEG4_P2_ASF_ASP_L5_SO_G726,http-get:*:video/mpeg:DLNA.ORG_PN=AVC_TS_BL_CIF15_AAC_540_ISO,http-get:*:video/mpeg:DLNA.ORG_PN=AVC_TS_BL_CIF15_AAC_ISO,http-get:*:video/mpeg:DLNA.ORG_PN=AVC_TS_BL_CIF30_AAC_940_ISO,http-get:*:video/mpeg:DLNA.ORG_PN=AVC_TS_BL_CIF30_AAC_MULT5_ISO,http-get:*:video/mpeg:DLNA.ORG_PN=AVC_TS_BL_CIF30_AC3_ISO,http-get:*:video/mpeg:DLNA.ORG_PN=AVC_TS_BL_CIF30_MPEG1_L3_ISO,http-get:*:video/mpeg:DLNA.ORG_PN=AVC_TS_MP_HD_AAC_MULT5_ISO,http-get:*:video/mpeg:DLNA.ORG_PN=AVC_TS_MP_HD_AC3_ISO,http-get:*:video/mpeg:DLNA.ORG_PN=AVC_TS_MP_HD_MPEG1_L3_ISO,http-get:*:video/mpeg:DLNA.ORG_PN=AVC_TS_MP_SD_AAC_MULT5_ISO,http-get:*:video/mpeg:DLNA.ORG_PN=AVC_TS_MP_SD_AC3_ISO,http-get:*:video/mpeg:DLNA.ORG_PN=AVC_TS_MP_SD_MPEG1_L3_ISO,http-get:*:video/mpeg:DLNA.ORG_PN=MPEG1,http-get:*:video/mpeg:DLNA.ORG_PN=MPEG4_P2_TS_SP_MPEG1_L3_ISO,http-get:*:video/mpeg:DLNA.ORG_PN=MPEG4_P2_TS_SP_AC3_ISO,http-get:*:video/mpeg:DLNA.ORG_PN=MPEG4_P2_TS_SP_MPEG2_L2_ISO,http-get:*:video/mpeg:DLNA.ORG_PN=MPEG_PS_PAL_XAC3,http-get:*:video/mpeg:DLNA.ORG_PN=MPEG_PS_PAL,http-get:*:video/mpeg:DLNA.ORG_PN=MPEG_PS_NTSC,http-get:*:video/mpeg:DLNA.ORG_PN=MPEG_PS_NTSC_XAC3,http-get:*:video/mpeg:DLNA.ORG_PN=MPEG_TS_HD_KO_ISO,http-get:*:video/mpeg:DLNA.ORG_PN=MPEG_TS_HD_KO_XAC3_ISO,http-get:*:video/mpeg:DLNA.ORG_PN=MPEG_TS_HD_NA_ISO,http-get:*:video/mpeg:DLNA.ORG_PN=MPEG_TS_HD_NA_XAC3_ISO,http-get:*:video/mpeg:DLNA.ORG_PN=MPEG_TS_MP_LL_AAC_ISO,http-get:*:video/mpeg:DLNA.ORG_PN=MPEG_TS_SD_EU_ISO,http-get:*:video/mpeg:DLNA.ORG_PN=MPEG_TS_SD_KO_ISO,http-get:*:video/mpeg:DLNA.ORG_PN=MPEG_TS_SD_KO_XAC3_ISO,http-get:*:video/mpeg:DLNA.ORG_PN=MPEG_TS_SD_NA_ISO,http-get:*:video/mpeg:DLNA.ORG_PN=MPEG_TS_SD_NA_XAC3_ISO,http-get:*:video/3gpp:DLNA.ORG_PN=AVC_3GPP_BL_QCIF15_AAC,http-get:*:video/3gpp:DLNA.ORG_PN=AVC_3GPP_BL_QCIF15_HEAAC,http-get:*:video/3gpp:DLNA.ORG_PN=MPEG4_P2_3GPP_SP_L0B_AAC,http-get:*:video/3gpp:DLNA.ORG_PN=MPEG4_P2_3GPP_SP_L0B_AMR,http-get:*:video/mp4:DLNA.ORG_PN=AVC_MP4_BL_CIF15_AAC,http-get:*:video/mp4:DLNA.ORG_PN=AVC_MP4_BL_CIF15_AAC_350,http-get:*:video/mp4:DLNA.ORG_PN=AVC_MP4_BL_CIF15_AAC_520,http-get:*:video/mp4:DLNA.ORG_PN=AVC_MP4_BL_CIF15_HEAAC,http-get:*:video/mp4:DLNA.ORG_PN=AVC_MP4_BL_CIF15_HEAAC_350,http-get:*:video/mp4:DLNA.ORG_PN=AVC_MP4_BL_CIF30_AAC_940,http-get:*:video/mp4:DLNA.ORG_PN=AVC_MP4_BL_CIF30_AAC_MULT5,http-get:*:video/mp4:DLNA.ORG_PN=AVC_MP4_BL_CIF30_HEAAC_L2,http-get:*:video/mp4:DLNA.ORG_PN=AVC_MP4_BL_CIF30_MPEG1_L3,http-get:*:video/mp4:DLNA.ORG_PN=AVC_MP4_BL_L12_CIF15_HEAAC,http-get:*:video/mp4:DLNA.ORG_PN=AVC_MP4_BL_L12_CIF15_HEAACv2,http-get:*:video/mp4:DLNA.ORG_PN=AVC_MP4_BL_L12_CIF15_HEAACv2_350,http-get:*:video/mp4:DLNA.ORG_PN=AVC_MP4_BL_L1B_QCIF15_HEAAC,http-get:*:video/mp4:DLNA.ORG_PN=AVC_MP4_BL_L1B_QCIF15_HEAACv2,http-get:*:video/mp4:DLNA.ORG_PN=AVC_MP4_BL_L2_CIF30_AAC,http-get:*:video/mp4:DLNA.ORG_PN=AVC_MP4_BL_L31_HD_AAC,http-get:*:video/mp4:DLNA.ORG_PN=AVC_MP4_BL_L32_HD_AAC,http-get:*:video/mp4:DLNA.ORG_PN=AVC_MP4_BL_L3L_SD_AAC,http-get:*:video/mp4:DLNA.ORG_PN=AVC_MP4_BL_L3L_SD_HEAAC,http-get:*:video/mp4:DLNA.ORG_PN=AVC_MP4_BL_L3_SD_AAC,http-get:*:video/mp4:DLNA.ORG_PN=AVC_MP4_MP_SD_AAC_LC,http-get:*:video/mp4:DLNA.ORG_PN=AVC_MP4_MP_SD_AAC_MULT5,http-get:*:video/mp4:DLNA.ORG_PN=AVC_MP4_MP_SD_HEAAC_L2,http-get:*:video/mp4:DLNA.ORG_PN=AVC_MP4_MP_SD_HEAAC_L4,http-get:*:video/mp4:DLNA.ORG_PN=AVC_MP4_MP_SD_MPEG1_L3,http-get:*:video/mp4:DLNA.ORG_PN=MPEG4_P2_MP4_ASP_AAC,http-get:*:video/mp4:DLNA.ORG_PN=MPEG4_P2_MP4_ASP_HEAAC,http-get:*:video/mp4:DLNA.ORG_PN=MPEG4_P2_MP4_ASP_HEAAC_MULT5,http-get:*:video/mp4:DLNA.ORG_PN=MPEG4_P2_MP4_SP_AAC,http-get:*:video/mp4:DLNA.ORG_PN=MPEG4_P2_MP4_SP_HEAAC,http-get:*:video/mp4:DLNA.ORG_PN=MPEG4_P2_MP4_SP_L2_AAC,http-get:*:video/mp4:DLNA.ORG_PN=MPEG4_P2_MP4_SP_VGA_AAC,http-get:*:video/mp4:DLNA.ORG_PN=MPEG4_P2_MP4_SP_VGA_HEAAC,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=MPEG4_P2_TS_SP_AC3,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=MPEG4_P2_TS_SP_AC3_T,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=MPEG4_P2_TS_SP_MPEG1_L3,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=MPEG4_P2_TS_SP_MPEG1_L3_T,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=MPEG4_P2_TS_SP_MPEG2_L2,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=MPEG4_P2_TS_SP_MPEG2_L2_T,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=MPEG_TS_HD_KO,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=MPEG_TS_HD_KO_T,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=MPEG_TS_HD_KO_XAC3,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=MPEG_TS_HD_KO_XAC3_T,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=MPEG_TS_HD_NA,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=MPEG_TS_HD_NA_T,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=MPEG_TS_HD_NA_XAC3,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=MPEG_TS_HD_NA_XAC3_T,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=MPEG_TS_JP_T,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=MPEG_TS_MP_LL_AAC,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=MPEG_TS_MP_LL_AAC_T,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=MPEG_TS_SD_EU,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=MPEG_TS_SD_EU_T,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=MPEG_TS_SD_KO,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=MPEG_TS_SD_KO_T,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=MPEG_TS_SD_KO_XAC3,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=MPEG_TS_SD_KO_XAC3_T,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=MPEG_TS_SD_NA,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=MPEG_TS_SD_NA_T,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=MPEG_TS_SD_NA_XAC3,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=MPEG_TS_SD_NA_XAC3_T,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_BL_CIF15_AAC,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_BL_CIF15_AAC_540,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_BL_CIF15_AAC_540_T,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_BL_CIF15_AAC_T,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_BL_CIF30_AAC_940,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_BL_CIF30_AAC_940_T,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_BL_CIF30_AAC_MULT5,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_BL_CIF30_AAC_MULT5_T,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_BL_CIF30_AC3,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_BL_CIF30_AC3_T,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_BL_CIF30_MPEG1_L3,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_BL_CIF30_MPEG1_L3_T,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_JP_AAC_T,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_MP_HD_AAC_MULT5,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_MP_HD_AAC_MULT5_T,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_MP_HD_AC3,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_MP_HD_AC3_T,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_MP_HD_MPEG1_L3,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_MP_HD_MPEG1_L3_T,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_MP_SD_AAC_MULT5,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_MP_SD_AAC_MULT5_T,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_MP_SD_AC3,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_MP_SD_AC3_T,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_MP_SD_MPEG1_L3,http-get:*:video/vnd.dlna.mpeg-tts:DLNA.ORG_PN=AVC_TS_MP_SD_MPEG1_L3_T` // 粘贴 SinkProtocolInfo.csv
